@@ -2,38 +2,27 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 
 export default function TextForm(props) {
+    const ct_word = () =>{
+        return text.split(/\s+/).filter((Element) => {return Element.length !== 0}).length;
+    }
     const toStyle_d = {
          border : "5px solid #c7bebe",
          backgroundColor : '#1f1d1d',
          fontWeight : "bold",
          color : "white",
-         overflow: 'hidden'
      }
     const toStyle_l = {
         border : "5px solid black",
         backgroundColor : 'white',
         fontWeight : "bold",
         color : "black",
-        overflow: 'hidden'
     }
-    let word = {
-       ct_word : () =>{
-           if(text.length <= 0){
-               return 0;
-           }
-           else{
-               return text.split(' ').length;
-           }
-       }
-   }
     const toClear = ()=>{
         setText('');
         if(text.length > 0) props.showAlert('Cleared Successfully', 'success');
     }
     const toCopyText = ()=>{
-        let copy_text = document.getElementById('myBox');
-        copy_text.select();
-        navigator.clipboard.writeText(copy_text.value);
+        navigator.clipboard.writeText(text);
         if(text.length > 0) props.showAlert('Copied Successfully', 'success');
     }
     const toUpperCase = ()=>{
@@ -71,8 +60,8 @@ export default function TextForm(props) {
     </div>
     <div className="container">
         <h4>Your Text Summary</h4>
-        <p>Word: {word.ct_word()} Character: {text.length - text.split(' ').length + 1}</p>
-        <p>Minutes Read: {0.008 * word.ct_word()}</p>
+        <p>Word: {ct_word()} Character: {text.length - text.split(' ').length + 1}</p>
+        <p>Minutes Read: {0.008 * ct_word()}</p>
     </div>
     <div className="container">
         <h5>Preview</h5>

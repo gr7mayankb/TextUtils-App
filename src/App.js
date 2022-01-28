@@ -12,6 +12,26 @@ import {
 } from "react-router-dom";
 
 function App() {
+  const [mode, setMode] = useState('light');
+  const [alert, setAlert] = useState(null);
+
+  const remove = () => {
+    document.links[0].classList.remove('active');
+    document.links[1].classList.remove('active');
+    document.links[0].removeAttribute('style');
+    document.links[1].removeAttribute('style');
+  }
+  const active = (item) =>{
+    remove();
+    if(item === 'home'){
+      document.links[0].classList.add('active');
+      document.links[0].setAttribute('style', 'border-bottom : 2px solid red')
+    }
+    else if(item === 'about'){
+      document.links[1].classList.add('active');
+      document.links[1].setAttribute('style', 'border-bottom : 2px solid red');
+    }
+  }
   const toToggle = () =>{
     if(mode === 'light'){
       setMode('dark');
@@ -26,8 +46,6 @@ function App() {
       showAlert('Light Mode-On', 'primary');
     }
   }
-  const [mode, setMode] = useState('light');
-  const [alert, setAlert] = useState(null);
   const showAlert = (message, type) =>{
     setAlert({
       msg: message,
@@ -39,17 +57,13 @@ function App() {
   }
   return (
     <>
-    {/* <div className="container my-5">
-      <TextForm heading='Enter Your Text Here:' mode={mode} showAlert={showAlert}/>
-    </div> */}
-    {/* <Navbar/> */}
     <Router>
-    <Navbar title='TextUtils' mode={mode} toggle={toToggle}/>
+    <Navbar title='TextUtils' mode={mode} toggle={toToggle} active={active}/>
     <Alert alert={alert}/>
       <div className="container my-5">
       <Routes>
-          <Route path="/about" element={<About />} />
-          <Route path="/" element={<TextForm heading='Enter Your Text Here:' mode={mode} showAlert={showAlert}/>} />
+          <Route path="/about" element={<About  mode={mode}/>} />
+          <Route path="/" element={<TextForm heading='Enter Your Text Here:' mode={mode} showAlert={showAlert} active={active}/>} />
       </Routes>
       </div>
     </Router>
